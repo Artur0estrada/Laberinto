@@ -10,6 +10,7 @@ public class laberinto {
         String prueba;
         String prueba2;
         System.out.println("quiubole");
+        System.out.println("Puros corridos tumbados");
     }
 
     //Para leer el laberinto
