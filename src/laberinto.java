@@ -9,6 +9,7 @@ public class laberinto {
         String holap;
         String prueba;
         String prueba2;
+        System.out.println("quiubole");
     }
 
     //Para leer el laberinto
