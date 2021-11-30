@@ -23,6 +23,16 @@ public class laberinto {
         String prueba2;
         System.out.println("quiubole");
         System.out.println("Puros corridos tumbados");
+        char[][] laberinto = cargaLaberinto(args[0]);
+        Point start = new Point(0,1);
+        char[][] resuelto = visit(laberinto, start);
+        System.out.println("a ver: ");
+        for(char[] fila: resuelto){
+            for(char elemento: fila){
+                System.out.print(elemento);
+            }
+            System.out.println();
+        }
     }
 
     public static char[][] visit(char[][] map , Point start){
