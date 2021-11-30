@@ -24,6 +24,12 @@ public class laberinto {
         System.out.println("quiubole");
         System.out.println("Puros corridos tumbados");
         char[][] laberinto = cargaLaberinto(args[0]);
+        for(char[] fila: laberinto){
+            for(char elemento: fila){
+                System.out.print(elemento);
+            }
+            System.out.println();
+        }
         Point start = new Point(0,1);
         char[][] resuelto = visit(laberinto, start);
         System.out.println("a ver: ");
