@@ -17,7 +17,6 @@ public class laberinto {
     public static void main(String[] args) {
         char[][] laberinto = cargaLaberinto(args[0]);
         char[][] laberinto2 = cargaLaberinto(args[0]);
-        char[][] laberinto3 = cargaLaberinto(args[0]);
         for(char[] fila: laberinto){
             for(char elemento: fila){
                 System.out.print(elemento);
@@ -26,7 +25,6 @@ public class laberinto {
         }
         ArrayList<String> recorrido = new ArrayList<>();
         ArrayList<String> recorrido2 = new ArrayList<>();
-        ArrayList<String> recorrido3 = new ArrayList<>();
         int startfila = 0;
         int startcolumna = 0;
         for (int i = 0; i < laberinto.length; i++) {
