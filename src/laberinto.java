@@ -56,6 +56,7 @@ public class laberinto {
             }
             System.out.println();
         }
+        new Menu();
     }
 
     public static char[][] visitDFS(char[][] map , Point start, ArrayList<String> recorrido){
