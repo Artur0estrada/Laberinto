@@ -13,9 +13,7 @@ class Point{
 
 public class laberinto {
     public static void main(String[] args) {
-        String holap;
-        String prueba;
-        String prueba2;
+
         System.out.println("quiubole");
         System.out.println("Puros corridos tumbados");
         char[][] laberinto = cargaLaberinto(args[0]);
