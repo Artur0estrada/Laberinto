@@ -11,10 +11,13 @@ class Point{
     }
 }
 
-
-
 public class laberinto {
     public static void main(String[] args) {
+        String holap;
+        String prueba;
+        String prueba2;
+        System.out.println("quiubole");
+        System.out.println("Puros corridos tumbados");
         char[][] laberinto = cargaLaberinto(args[0]);
         char[][] laberinto2 = cargaLaberinto(args[0]);
         for(char[] fila: laberinto){
@@ -36,9 +39,9 @@ public class laberinto {
 
         }
         Point start = new Point(startcolumna,startfila);
-        char[][] resueltoBFS = BFS(laberinto, start, recorrido);
-        char[][] resueltoDFS = DFS(laberinto2, start, recorrido2);
-        int distancia = caminoCorto(laberinto2, start);
+        char[][] resueltoBFS = visitBFS(laberinto, start, recorrido);
+        char[][] resueltoDFS = visitDFS(laberinto2, start, recorrido2);
+        //char[][] resueltoDIJ = visitDijkstra(laberinto, start, recorrido);
         System.out.println("BFS: ");
         for(char[] fila: resueltoBFS){
             for(char elemento: fila){
@@ -53,16 +56,17 @@ public class laberinto {
             }
             System.out.println();
         }
-        System.out.println("El camino más corto tiene una distancia de: "+distancia);
     }
 
-    public static char[][] DFS(char[][] map , Point start, ArrayList<String> recorrido){
+    public static char[][] visitDFS(char[][] map , Point start, ArrayList<String> recorrido){
         char[][] resultado = map;
         int []x = {0,0,1,-1};
         int []y = {1,-1,0,0};
         Stack<Point> stack = new Stack<>();
         stack.push(start);
-        boolean[][] visto = new boolean[map.length][map[0].length];
+        int n = map.length;
+        int m = map[0].length;
+        boolean[][] visto = new boolean[n][m];
         int endx = resultado[0].length-1;
         int endy = 0;
         for (int i = 0; i < resultado.length; i++) {
@@ -81,7 +85,7 @@ public class laberinto {
             for(int i = 0; i < 4; i++){
                 int a = p.x + x[i];
                 int b = p.y + y[i];
-                if(a >= 0 && b >= 0 && a < map.length && b < map[0].length && visto[a][b] == false  && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
+                if(a >= 0 && b >= 0 && a < n && b < m && visto[a][b] == false  && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
                     visto[a][b] = true;
                     recorrido.add("\"(" + a + ","+b + ")\"");
                     resultado[a][b]='#';
@@ -100,14 +104,15 @@ public class laberinto {
         return resultado;
     }
 
-
-    public static char[][] BFS(char[][] map , Point start, ArrayList<String> recorrido){
+    public static char[][] visitBFS(char[][] map , Point start, ArrayList<String> recorrido){
         char[][] resultado = map;
         int []x = {0,0,1,-1};
         int []y = {1,-1,0,0};
         Queue<Point> queue = new LinkedList<>();
         queue.add(start);
-        boolean[][] visto = new boolean[map.length][map[0].length];
+        int n = map.length;
+        int m = map[0].length;
+        boolean[][] visto = new boolean[n][m];
         int endx = resultado[0].length-1;
         int endy = 0;
         for (int i = 0; i < resultado.length; i++) {
@@ -116,6 +121,7 @@ public class laberinto {
                     endy = i;
                 }
             }
+
         }
         visto[start.x][start.y] = true;
         boolean bandera = false;
@@ -127,10 +133,11 @@ public class laberinto {
             for(int i = 0; i < 4; i++){
                 int a = p.x + x[i];
                 int b = p.y + y[i];
-                if(a >= 0 && b >= 0 && a < map.length && b < map[0].length && visto[a][b] == false && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
+                if(a >= 0 && b >= 0 && a < n && b < m && visto[a][b] == false && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
                     visto[a][b] = true;
                     resultado[a][b]='#';
-                    recorrido.add("\"(" + a + ","+b + ")\"");
+                    recorrido.add("(" + a + ","+b + ")");
+                    System.out.println();
                     if(map[a][b]==map[endy][endx]){
                         bandera = true;
                         break;
@@ -141,32 +148,6 @@ public class laberinto {
         }
         for(String recorrer: recorrido){
             System.out.println(recorrer);
-        }
-        return resultado;
-    }
-
-    public static int caminoCorto(char[][] map , Point start) {
-        int[] x = {0, 0, 1, -1};
-        int[] y = {1, -1, 0, 0};
-        LinkedList<Point> q = new LinkedList();
-        q.add(start);
-        int[][] dist = new int[map.length][map[0].length];
-        for (int[] a : dist) {
-            Arrays.fill(a, -1);
-        }
-        int resultado=0;
-        dist[start.x][start.y] = 0;
-        while (!q.isEmpty()) {
-            Point p = q.removeFirst();
-            for (int i = 0; i < 4; i++) {
-                int a = p.x + x[i];
-                int b = p.y + y[i];
-                if (a >= 0 && b >= 0 && a < map.length && b < map[0].length && dist[a][b] == -1 && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ) {
-                    dist[a][b] = 1 + dist[p.x][p.y];
-                    resultado=dist[a][b];
-                    q.add(new Point(a, b));
-                }
-            }
         }
         return resultado;
     }
@@ -201,7 +182,7 @@ public class laberinto {
         }
     }
 
-
+    //Para leer el laberinto
     public static char[][] cargaLaberinto(String archivo) {
         int i=0;
         ArrayList<String> lineas = new ArrayList<>();
