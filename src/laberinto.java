@@ -15,53 +15,34 @@ public class laberinto {
     public static void main(String[] args) {
         char[][] laberinto = cargaLaberinto(args[0]);
         char[][] laberinto2 = cargaLaberinto(args[0]);
-        for(char[] fila: laberinto){
-            for(char elemento: fila){
-                System.out.print(elemento);
-            }
-            System.out.println();
-        }
-        ArrayList<String> recorrido = new ArrayList<>();
-        ArrayList<String> recorrido2 = new ArrayList<>();
+        imprimeLaberinto(laberinto);
+        char[][] resueltoBFS = BFS(laberinto);
+        char[][] resueltoDFS = DFS(laberinto2);
+        int distancia = caminoCorto(laberinto);
+        new Menu();
+    }
+
+    public static char[][] DFS(char[][] map){
         int startfila = 0;
         int startcolumna = 0;
-        for (int i = 0; i < laberinto.length; i++) {
-            for (int j = 0; j < laberinto[0].length; j++) {
-                if(laberinto[i][startcolumna] == ' '){
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                if(map[i][startcolumna] == ' '){
                     startfila = i;
                 }
             }
 
         }
+        ArrayList<String> recorrido = new ArrayList<>();
         Point start = new Point(startcolumna,startfila);
-        char[][] resueltoBFS = BFS(laberinto, start, recorrido);
-        char[][] resueltoDFS = DFS(laberinto2, start, recorrido2);
-        int distancia = caminoCorto(laberinto2, start);
-        System.out.println("BFS: ");
-        for(char[] fila: resueltoBFS){
-            for(char elemento: fila){
-                System.out.print(elemento);
-            }
-            System.out.println();
-        }
-        System.out.println("DFS: ");
-        for(char[] fila: resueltoDFS){
-            for(char elemento: fila){
-                System.out.print(elemento);
-            }
-            System.out.println();
-        }
-        System.out.println("El camino mÃ¡s corto tiene una distancia de: "+distancia);
-        new Menu();
-    }
-
-    public static char[][] DFS(char[][] map , Point start, ArrayList<String> recorrido){
         char[][] resultado = map;
         int []x = {0,0,1,-1};
         int []y = {1,-1,0,0};
         Stack<Point> stack = new Stack<>();
         stack.push(start);
-        boolean[][] visto = new boolean[map.length][map[0].length];
+        int n = map.length;
+        int m = map[0].length;
+        boolean[][] visto = new boolean[n][m];
         int endx = resultado[0].length-1;
         int endy = 0;
         for (int i = 0; i < resultado.length; i++) {
@@ -80,7 +61,7 @@ public class laberinto {
             for(int i = 0; i < 4; i++){
                 int a = p.x + x[i];
                 int b = p.y + y[i];
-                if(a >= 0 && b >= 0 && a < map.length && b < map[0].length && visto[a][b] == false  && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
+                if(a >= 0 && b >= 0 && a < n && b < m && visto[a][b] == false  && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
                     visto[a][b] = true;
                     recorrido.add("\"(" + a + ","+b + ")\"");
                     resultado[a][b]='#';
@@ -96,16 +77,31 @@ public class laberinto {
             System.out.println(recorrer);
         }
         escribeArchivo(recorrido,resultado);
+        imprimeLaberinto(resultado);
         return resultado;
     }
 
-    public static char[][] BFS(char[][] map , Point start, ArrayList<String> recorrido){
+    public static char[][] BFS(char[][] map){
+        int startfila = 0;
+        int startcolumna = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                if(map[i][startcolumna] == ' '){
+                    startfila = i;
+                }
+            }
+
+        }
+        ArrayList<String> recorrido = new ArrayList<>();
+        Point start = new Point(startcolumna,startfila);
         char[][] resultado = map;
         int []x = {0,0,1,-1};
         int []y = {1,-1,0,0};
         Queue<Point> queue = new LinkedList<>();
         queue.add(start);
-        boolean[][] visto = new boolean[map.length][map[0].length];
+        int n = map.length;
+        int m = map[0].length;
+        boolean[][] visto = new boolean[n][m];
         int endx = resultado[0].length-1;
         int endy = 0;
         for (int i = 0; i < resultado.length; i++) {
@@ -125,7 +121,7 @@ public class laberinto {
             for(int i = 0; i < 4; i++){
                 int a = p.x + x[i];
                 int b = p.y + y[i];
-                if(a >= 0 && b >= 0 && a < map.length && b < map[0].length && visto[a][b] == false && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
+                if(a >= 0 && b >= 0 && a < n && b < m && visto[a][b] == false && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ){
                     visto[a][b] = true;
                     resultado[a][b]='#';
                     recorrido.add("\"(" + a + ","+b + ")\"");
@@ -140,15 +136,37 @@ public class laberinto {
         for(String recorrer: recorrido){
             System.out.println(recorrer);
         }
+        imprimeLaberinto(resultado);
         return resultado;
     }
 
-    public static int caminoCorto(char[][] map , Point start) {
+    public static void imprimeLaberinto(char[][] map){
+        for(char[] fila: map){
+            for(char elemento: fila){
+                System.out.print(elemento);
+            }
+            System.out.println();
+        }
+    }
+
+    public static int caminoCorto(char[][] map) {
+        int startfila = 0;
+        int startcolumna = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[0].length; j++) {
+                if(map[i][startcolumna] == ' '){
+                    startfila = i;
+                }
+            }
+        }
+        Point start = new Point(startcolumna,startfila);
         int[] x = {0, 0, 1, -1};
         int[] y = {1, -1, 0, 0};
         LinkedList<Point> q = new LinkedList();
         q.add(start);
-        int[][] dist = new int[map.length][map[0].length];
+        int n = map.length;
+        int m = map[0].length;
+        int[][] dist = new int[n][m];
         for (int[] a : dist) {
             Arrays.fill(a, -1);
         }
@@ -159,15 +177,19 @@ public class laberinto {
             for (int i = 0; i < 4; i++) {
                 int a = p.x + x[i];
                 int b = p.y + y[i];
-                if (a >= 0 && b >= 0 && a < map.length && b < map[0].length && dist[a][b] == -1 && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ) {
+                if (a >= 0 && b >= 0 && a < n && b < m && dist[a][b] == -1 && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ) {
                     dist[a][b] = 1 + dist[p.x][p.y];
                     resultado=dist[a][b];
                     q.add(new Point(a, b));
                 }
             }
         }
+
+        System.out.println("El camino más corto tiene una distancia de: "+resultado);
         return resultado;
     }
+
+
     public static void escribeArchivo(ArrayList<String> nodos, char[][] laberinto){
 
         int i=0;
