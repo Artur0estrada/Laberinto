@@ -12,13 +12,21 @@ class Point{
 }
 
 public class laberinto {
+    private static boolean bandera = false;
     public static void main(String[] args) {
-        char[][] laberinto = cargaLaberinto(args[0]);
-        char[][] laberinto2 = cargaLaberinto(args[0]);
-        imprimeLaberinto(laberinto);
-        char[][] resueltoBFS = BFS(laberinto);
-        char[][] resueltoDFS = DFS(laberinto2);
-        int distancia = caminoCorto(laberinto);
+        if(Menu.path != null){
+            args[0] = Menu.path;
+        }
+
+                char[][] laberinto = cargaLaberinto(args[0]);
+                char[][] laberinto2 = cargaLaberinto(args[0]);
+                imprimeLaberinto(laberinto);
+                char[][] resueltoBFS = BFS(laberinto);
+                char[][] resueltoDFS = DFS(laberinto2);
+                int distancia = caminoCorto(laberinto);
+               char[][] datoBFS=resueltoBFS;
+
+
         new Menu();
     }
 
