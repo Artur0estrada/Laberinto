@@ -33,12 +33,12 @@ public class laberinto {
                 char[][] resueltoBFS = BFS(laberinto);
                 char[][] resueltoDFS = DFS(laberinto2);
                 int distancia = caminoCorto(laberinto);
-                //char[][] datoBFS = resueltoBFS;
             }
             new Menu();
     }
 
     public static char[][] DFS(char[][] map){
+        bandera = false;
         System.out.println("Metodo DFS");
         int startfila = 0;
         int startcolumna = 0;
@@ -137,6 +137,7 @@ public class laberinto {
     }
 
     public static char[][] BFS(char[][] map){
+        bandera = false;
         System.out.println("Metodo BFS");
         int startfila = 0;
         int startcolumna = 0;
@@ -234,8 +235,6 @@ public class laberinto {
         return resultado;
     }
 
-    //C:\Users\yuvit\IdeaProjects\prueba_lab\src\laberinto_mediano.txt
-
     public static void imprimeLaberinto(char[][] map){
         for(char[] fila: map){
             for(char elemento: fila){
@@ -246,6 +245,7 @@ public class laberinto {
     }
 
     public static int caminoCorto(char[][] map) {
+        bandera = false;
         System.out.println("Camino Corto");
         int startfila = 0;
         int startcolumna = 0;
@@ -315,14 +315,21 @@ public class laberinto {
         int resultado=0;
         dist[start.x][start.y] = 0;
         while (!q.isEmpty()) {
+            if(bandera == true){
+                break;
+            }
             punto p = q.removeFirst();
             for (int i = 0; i < 4; i++) {
                 int a = p.x + x[i];
                 int b = p.y + y[i];
                 if (a >= 0 && b >= 0 && a < map.length && b < map[0].length && dist[a][b] == -1 && map[a][b] != '+' && map[a][b] != '-' && map[a][b] != '|' ) {
                     dist[a][b] = 1 + dist[p.x][p.y];
-                    resultado=dist[a][b];
                     q.add(new punto(a, b));
+                    if(map[a][b]==map[endfila][endcolumna]){
+                        resultado=dist[a][b];
+                        bandera = true;
+                        break;
+                    }
                 }
             }
         }
