@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 
 public class Menu extends JFrame implements ActionListener {
@@ -32,9 +34,9 @@ public class Menu extends JFrame implements ActionListener {
         labelInstruccion.setText("Ingrese aquí el argumento");
         add(labelInstruccion);
 
-        txtcargarPath=new JTextField();
+        txtcargarPath=new JTextField("Path del nuevo archivo aquí...");
         txtcargarPath.setBounds(75,50,250,20);
-        txtcargarPath.setText("Escriba aquí...");
+        //txtcargarPath.setText("Escriba aquí...");
         add(txtcargarPath);
 
         btnDFS=new JButton();
@@ -51,7 +53,7 @@ public class Menu extends JFrame implements ActionListener {
 
         btnCargar=new JButton();
         btnCargar.setBounds(128,73,150,15);
-        btnCargar.setText("Cargar");
+        btnCargar.setText("Distancia Más Corta");
         btnCargar.addActionListener(this);
         add(btnCargar);
 
@@ -60,9 +62,8 @@ public class Menu extends JFrame implements ActionListener {
         btnSalir.setText("Salir");
         btnSalir.addActionListener(this);
         add(btnSalir);
-
-
     }
+
 
 
 
@@ -75,23 +76,23 @@ public class Menu extends JFrame implements ActionListener {
             System.exit(0);
         }
         if(e.getSource().equals(btnCargar)){
-            System.out.println("Se ha pulsado el botón Cargar");
-            path=txtcargarPath.getText();
+            System.out.println("Se ha pulsado el botón Distancia");
+            char[][] matriz = laberinto.cargaLaberinto(txtcargarPath.getText());
+            int matriz_resuelta = laberinto.caminoCorto(matriz);
 
         }
         if(e.getSource().equals(btnBFS)){
             System.out.println("Se ha pulsado el botón BFS");
-
             char[][] matriz = laberinto.cargaLaberinto(txtcargarPath.getText());
             char[][] matriz_resuelta = laberinto.BFS(matriz);
-            laberinto.imprimeLaberinto(matriz_resuelta);
+            //laberinto.imprimeLaberinto(matriz_resuelta);
 
         }
         if(e.getSource().equals(btnDFS)){
             System.out.println("Se ha pulsado el botón DFS");
             char[][] matriz = laberinto.cargaLaberinto(txtcargarPath.getText());
             char[][] matriz_resuelta = laberinto.DFS(matriz);
-            laberinto.imprimeLaberinto(matriz_resuelta);
+            //laberinto.imprimeLaberinto(matriz_resuelta);
 
 
         }
