@@ -1,5 +1,10 @@
 import java.io.*;
 import java.util.*;
+//Proyecto final:  Laberinto
+//El programa requiere que el usuario introduzca como argumento el path del laberinto que quiera resolver
+//El programa lo resolvera usando los dos metodos de busqueda y además le saldra un menu
+//con la opcion de volver a introducir otro path y seleccionar con que metodo lo quiere resolver
+
 
 //Equipo: Enigma            03/Diciembre/2021
 //Luis Arturo Estrada Rios
@@ -19,6 +24,10 @@ class punto{
 public class laberinto {
     private static boolean bandera = false;
     public static void main(String[] args) {
+        System.out.println("El programa requiere que el usuario introduzca como argumento el path del laberinto que quiera resolver\n" +
+                "El programa lo resolvera usando los dos metodos de busqueda y además le saldra un menu\n" +
+                "con la opcion de volver a introducir otro path y seleccionar con que metodo lo quiere resolver");
+
         if(args.length < 1) {
             System.out.println("Error, no introdujo argumentos");
             System.exit(0);
@@ -131,6 +140,10 @@ public class laberinto {
             System.out.println("El laberinto no tiene solucion");
             System.exit(0);
         }
+        System.out.println("Camino recorrido DFS: ");
+        for(String recorrer: recorrido){
+            System.out.println(recorrer);
+        }
         escribeArchivo(recorrido,resultado,"DFS");
         imprimeLaberinto(resultado);
         return resultado;
@@ -229,6 +242,10 @@ public class laberinto {
             imprimeLaberinto(resultado);
             System.out.println("El laberinto no tiene solucion");
             System.exit(0);
+        }
+        System.out.println("Camino recorrido BFS:");
+        for(String recorrer: recorrido){
+            System.out.println(recorrer);
         }
         escribeArchivo(recorrido,resultado,"BFS");
         imprimeLaberinto(resultado);
@@ -401,6 +418,7 @@ public class laberinto {
             }
             return mapa;
         } catch (IOException e) {
+            System.out.println("NO SE ENCUENTRA EL ARCHIVO");
             e.printStackTrace();
             return null;
         }
